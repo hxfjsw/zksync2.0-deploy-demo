@@ -151,8 +151,8 @@ contract NftExchange is Ownable, ExchangeDomain {
         if (asset.assetType == AssetType.ETH) {
             address payable toPayable = payable(to);
 //            toPayable.transfer(value);
-            (bool success, ) = toPayable.call.value(value)("");
-            require(success, "Transfer failed.");
+            (bool success, ) = toPayable.call{value:value}("");
+            require(success, "ETH Transfer failed.");
         } else if (asset.assetType == AssetType.ERC20) {
             require(asset.tokenId == 0, "tokenId  be 0");
             erc20TransferProxy.erc20safeTransferFrom(IERC20(asset.token), from, to, value);
